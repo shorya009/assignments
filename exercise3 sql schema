@@ -1,0 +1,234 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Mar 02, 2020 at 02:01 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.2
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `Articles`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Article`
+--
+
+CREATE TABLE `Article` (
+  `A_id` varchar(255) NOT NULL,
+  `A_description` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Article`
+--
+
+INSERT INTO `Article` (`A_id`, `A_description`) VALUES
+('A1', 'it is category 1 sports cricket is a very famous sport in India'),
+('A3', 'it category 3 science plants release co2 at night'),
+('A4', 'it is category 2 politics xyaaaaaz'),
+('A5', 'it is category 1 sports tennis requires lot\'s of stamina'),
+('A6', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Author`
+--
+
+CREATE TABLE `Author` (
+  `Author` varchar(255) NOT NULL,
+  `Category` varchar(255) NOT NULL,
+  `A_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Author`
+--
+
+INSERT INTO `Author` (`Author`, `Category`, `A_id`) VALUES
+('User2', 'Ca1', 'A1'),
+('User3', 'Ca2', 'A2'),
+('User4', 'Ca3', 'A3'),
+('User2', 'Ca2', 'A4'),
+('User3', 'Ca1', 'A5'),
+('User4', 'Ca3', 'A6');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Category`
+--
+
+CREATE TABLE `Category` (
+  `Categories` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Category`
+--
+
+INSERT INTO `Category` (`Categories`, `name`) VALUES
+('Ca1', 'sports'),
+('Ca2', 'politics'),
+('Ca3', 'science'),
+('Ca4', 'history');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Commentid`
+--
+
+CREATE TABLE `Commentid` (
+  `C_id` varchar(255) DEFAULT NULL,
+  `A_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Commentid`
+--
+
+INSERT INTO `Commentid` (`C_id`, `A_id`) VALUES
+('Co1', 'A1'),
+('Co2', 'A1'),
+('Co3', 'A3'),
+(NULL, 'A4'),
+('Co4', 'A5'),
+('Co5', 'A3');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Comments`
+--
+
+CREATE TABLE `Comments` (
+  `Comment_by_user` varchar(255) NOT NULL,
+  `C_id` varchar(255) NOT NULL,
+  `Comment_description` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Comments`
+--
+
+INSERT INTO `Comments` (`Comment_by_user`, `C_id`, `Comment_description`) VALUES
+('User3', 'Co1', 'article is very gud'),
+('User4', 'Co2', 'article is very interesting'),
+('User4', 'Co3', 'nice article'),
+('User2', 'Co4', 'nicely written'),
+('User3', 'Co5', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `User`
+--
+
+CREATE TABLE `User` (
+  `Users` varchar(255) NOT NULL,
+  `role` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `User`
+--
+
+INSERT INTO `User` (`Users`, `role`) VALUES
+('User1', 'Admin'),
+('User2', 'normal'),
+('User3', 'normal'),
+('User4', 'normal');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `Article`
+--
+ALTER TABLE `Article`
+  ADD PRIMARY KEY (`A_id`);
+
+--
+-- Indexes for table `Author`
+--
+ALTER TABLE `Author`
+  ADD PRIMARY KEY (`A_id`),
+  ADD KEY `Category` (`Category`),
+  ADD KEY `Author` (`Author`);
+
+--
+-- Indexes for table `Category`
+--
+ALTER TABLE `Category`
+  ADD PRIMARY KEY (`Categories`);
+
+--
+-- Indexes for table `Commentid`
+--
+ALTER TABLE `Commentid`
+  ADD KEY `A_id` (`A_id`);
+
+--
+-- Indexes for table `Comments`
+--
+ALTER TABLE `Comments`
+  ADD PRIMARY KEY (`C_id`),
+  ADD KEY `Comment_by_user` (`Comment_by_user`);
+
+--
+-- Indexes for table `User`
+--
+ALTER TABLE `User`
+  ADD PRIMARY KEY (`Users`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Article`
+--
+ALTER TABLE `Article`
+  ADD CONSTRAINT `Article_ibfk_1` FOREIGN KEY (`A_id`) REFERENCES `Author` (`A_id`);
+
+--
+-- Constraints for table `Author`
+--
+ALTER TABLE `Author`
+  ADD CONSTRAINT `Author_ibfk_1` FOREIGN KEY (`Category`) REFERENCES `Category` (`Categories`),
+  ADD CONSTRAINT `Author_ibfk_2` FOREIGN KEY (`Author`) REFERENCES `User` (`Users`);
+
+--
+-- Constraints for table `Commentid`
+--
+ALTER TABLE `Commentid`
+  ADD CONSTRAINT `Commentid_ibfk_1` FOREIGN KEY (`A_id`) REFERENCES `Author` (`A_id`);
+
+--
+-- Constraints for table `Comments`
+--
+ALTER TABLE `Comments`
+  ADD CONSTRAINT `Comments_ibfk_1` FOREIGN KEY (`Comment_by_user`) REFERENCES `User` (`Users`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
