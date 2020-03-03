@@ -1,0 +1,52 @@
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+--
+-- Database: `Bank`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Accounts`
+--
+
+CREATE TABLE `Accounts` (
+  `Id` varchar(255) NOT NULL,
+  `Account_no` int(255) NOT NULL,
+  `Balance` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Accounts`
+--
+
+INSERT INTO `Accounts` (`Id`, `Account_no`, `Balance`) VALUES
+('a1', 1234, 10300),
+('a2', 1235, 20200);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Users`
+--
+
+CREATE TABLE `Users` (
+  `Id` varchar(255) NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  `Email` varchar(255) NOT NULL,
+  `Account_no` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Users`
+--
+
+INSERT INTO `Users` (`Id`, `Name`, `Email`, `Account_no`) VALUES
+('userA', 'Rohan', 'rohan@gmail.com', 1234),
+('userB', 'Sohan', 'Sohan@gmail.com', 1235);
+COMMIT;
+
+
