@@ -1,0 +1,148 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Mar 01, 2020 at 12:39 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.2
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `vinsol`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `LOCATIONS`
+--
+
+CREATE TABLE `LOCATIONS` (
+  `LNAME` varchar(255) NOT NULL,
+  `PHONE` int(7) NOT NULL,
+  `ADDRESS` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `LOCATIONS`
+--
+
+INSERT INTO `LOCATIONS` (`LNAME`, `PHONE`, `ADDRESS`) VALUES
+('Buttery', 7023421, 'College St'),
+('Lincoln', 6834523, 'Lincoln Place'),
+('O\'Neill\'s', 6742134, 'Pearse St'),
+('Old Nag', 7678132, 'Dame St');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `SANDWICHES`
+--
+
+CREATE TABLE `SANDWICHES` (
+  `LOCATION` varchar(255) NOT NULL,
+  `BREAD` varchar(255) NOT NULL,
+  `FILLING` varchar(255) NOT NULL,
+  `PRICE` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `SANDWICHES`
+--
+
+INSERT INTO `SANDWICHES` (`LOCATION`, `BREAD`, `FILLING`, `PRICE`) VALUES
+('Buttery', 'White', 'Cheese', 1),
+('Buttery', 'White', 'Ham', 1.1),
+('Lincoln', 'Rye', 'Beef', 1.35),
+('Lincoln', 'Rye', 'Ham', 1.25),
+('Lincoln', 'White', 'Ham', 1.3),
+('O\'Neill\'s', 'White', 'Cheese', 1.2),
+('O\'Neill\'s', 'White', 'Turkey', 1.35),
+('O\'Neill\'s', 'Whole', 'Ham', 1.25),
+('Old Nag', 'Rye', 'Beef', 1.35),
+('Old Nag', 'Rye', 'Ham', 1.4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `TASTES`
+--
+
+CREATE TABLE `TASTES` (
+  `NAME` varchar(255) NOT NULL,
+  `FILLING` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `TASTES`
+--
+
+INSERT INTO `TASTES` (`NAME`, `FILLING`) VALUES
+('Brown', 'Beef'),
+('Brown', 'Ham'),
+('Brown', 'Turkey'),
+('Green', 'Beef'),
+('Green', 'Cheese'),
+('Green', 'Turkey'),
+('Jones', 'Cheese');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `testing_table`
+--
+
+CREATE TABLE `testing_table` (
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  `roll_no` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `LOCATIONS`
+--
+ALTER TABLE `LOCATIONS`
+  ADD PRIMARY KEY (`LNAME`);
+
+--
+-- Indexes for table `SANDWICHES`
+--
+ALTER TABLE `SANDWICHES`
+  ADD PRIMARY KEY (`LOCATION`,`BREAD`,`FILLING`);
+
+--
+-- Indexes for table `TASTES`
+--
+ALTER TABLE `TASTES`
+  ADD PRIMARY KEY (`NAME`,`FILLING`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `SANDWICHES`
+--
+ALTER TABLE `SANDWICHES`
+  ADD CONSTRAINT `SANDWICHES_ibfk_1` FOREIGN KEY (`LOCATION`) REFERENCES `LOCATIONS` (`LNAME`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
