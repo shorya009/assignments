@@ -1,7 +1,0 @@
-Ans 1-SELECT Title FROM `Titles` WHERE Publisher='Macmillan';
-
-Ans 2-SELECT DISTINCT Branch from Holdings WHERE Title IN (SELECT Title from Titles WHERE Author = 'Ann Brown')
-
-Ans3 -SELECT DISTINCT h.Branch FROM `Holdings` h LEFT JOIN Titles t ON h.Title = t.Title WHERE t.Author = 'Ann Brown';
-
-Ans 4-SELECT Branch,sum(`#Copies`) as 'Total Books' from Holdings GROUP BY Branch ORDER BY Branch
