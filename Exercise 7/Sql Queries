@@ -1,0 +1,32 @@
+ans 2.1
+It means total no. of rows present in table and the number of rows mysql is traversing to find the ans is same.
+ans 2.2
+Select query is not optimal.we need to add index on user_id coloumn.
+ans 3.1
+first i will index user_id coloumn then i will index commentable_type coloumn
+ans 4.1
+explainusing join
+id select_type table type possible_keys key key_len  ref             rows Extra
+1   SIMPLE      A   ALL      NULL      NULL   NULL   NULL             4
+1   SIMPLE      C   ref      A_id      A_id   1022   Articles.A.A_id  1   Using where
+
+id 1 means there is only one query
+select type simple means no subquery or union has been used 
+table means alias used by the query
+type - all meansquery will scan all the records
+possible keys-The optional indexes MySQL can choose from, to look up for rows in the table
+key-This column indicates the actual index MySQL decided to use.
+key_len-It indicates the length of the key that MySQL decided to use, in bytes.
+rows-Indicates the amount of number of rows MySQL believes it must examine from this table, to execute the query. 
+extra-Contains more information about the query processing
+
+explain using subquery
+
+id select_type  table    type possible_keys   key     key_len     ref             rows  Extra
+1   Primary    Article   ALL       NULL      NULL     NULL       NULL             4
+1   Primary    Commentid ref       A_id      A_id     1022    Articles.A.A_id     1     Using where; FirstMatch(Article)
+
+the performance of both queries are same since number of rows that will be traversed is same in both the queries on changes are select
+type and table coloumn and extra coloumn
+
+
