@@ -1,0 +1,56 @@
+CREATE DATABASE ARTICLE
+
+CREATE TABLE `User` ( `User_id` integer(255) NOT NULL AUTO_INCREMENT, `Role` varchar(255) NOT NULL,`Name` varchar(255) NOT NULL, PRIMARY KEY (`User_id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `User` ( `role`,`Name`) VALUES
+('Admin','User1'),
+('normal','User2'),
+('normal','User3'),
+('normal','User4');
+
+CREATE TABLE `Category` (
+  `Categories` integer(255) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+    PRIMARY KEY (Categories)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+INSERT INTO `Category` (`name`) VALUES
+('sports'),
+('politics'),
+('science'),
+('history');
+
+
+CREATE TABLE `Article` ( `User_id` int(255) NOT NULL, `A_id` int(255) NOT NULL AUTO_INCREMENT, `A_description` varchar(255) NOT NULL, `Category_id` int(255) NOT NULL, PRIMARY KEY(A_id) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `Article` ADD CONSTRAINT `Article_ibfk_1` FOREIGN KEY (`User_id`) REFERENCES `User` (`User_id`);
+
+ALTER TABLE `Article` ADD CONSTRAINT `Category_ibfk_1` FOREIGN KEY (`Category_id`) REFERENCES `Category` (`Categories`);
+
+
+
+INSERT INTO `Article` (`User_id`, `A_description`,`Category_id`) VALUES
+('3', 'it is category 1 sports cricket is a very famous sport in India','1'),
+('3', 'it category 3 science plants release co2 at night','3'),
+('3', 'it is category 2 politics xyaaaaaz','2'),
+('2', 'it is category 1 sports tennis requires lot\'s of stamina','1'),
+('4', 'it is category 4 history 1947 independence','4');
+
+
+CREATE TABLE `Comments` ( `Article_id` integer(255) NOT NULL, `Comment_by_user` integer(255) NOT NULL, `C_id` integer(255) NOT NULL AUTO_INCREMENT, `Comment_description` varchar(255) NOT NULL, PRIMARY KEY(C_id) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+ALTER TABLE `Comments`
+  ADD CONSTRAINT `Comments_ibfk_1` FOREIGN KEY (`Comment_by_user`) REFERENCES `User` (`User_id`);
+
+ALTER TABLE `Comments`
+  ADD CONSTRAINT `Article_ibfk_2` FOREIGN KEY (`Article_id`) REFERENCES `Article` (`A_id`);
+
+
+INSERT INTO `Comments` (`Article_id`,`Comment_by_user`, `Comment_description`) VALUES
+('1','2', 'article is very gud'),
+('1','2', 'article is very interesting'),
+('1','4', 'nice article'),
+('5','3','nicely written'),
+('2','4', 'good work');
