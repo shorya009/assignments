@@ -13,8 +13,6 @@ SELECT * FROM `Employees` ORDER BY(SALARY) DESC LIMIT 3,1
 
 ANS3
 
-Name of bank giving highest commission
-
 SELECT MAX(t.Total_Commission) as "Total_Max Commision",t.Departments_ID,t.Departments_Name
 FROM
 (SELECT sum(Commissions.COMMISSION_AMOUNT) as "Total_Commission",Departments.ID as "Departments_ID",Departments.NAME as "Departments_Name" 
@@ -26,5 +24,8 @@ ORDER BY Departments.ID) t
 
 ANS4
 
-select GROUP_CONCAT(E.Name) AS Name,C.COMMISSION_AMOUNT FROM Employees E LEFT JOIN 
-Commissions C ON E.ID = C.EMPLOYEE_ID WHERE C.COMMISSION_AMOUNT > 3000 GROUP BY(C.COMMISSION_AMOUNT)
+select GROUP_CONCAT(E.Name) AS Name,C.COMMISSION_AMOUNT 
+FROM Employees E 
+INNER JOIN Commissions C ON E.ID = C.EMPLOYEE_ID 
+WHERE C.COMMISSION_AMOUNT > 3000 
+GROUP BY(C.COMMISSION_AMOUNT)
