@@ -1,0 +1,87 @@
+(CATEGORY)
+INSERT INTO Category VALUES('5','philosophy');
+UPDATE Category SET name='technology' WHERE Categories='5';
+DELETE FROM Category WHERE Categories='5' 
+
+(USER)
+INSERT INTO `User` ( `Role`,`Name`) VALUES ('normal’,’User5’)
+UPDATE `User` SET `Role`='admin' WHERE `User_id`='5'
+DELETE FROM `User` WHERE `User_id`=5; 
+
+(ARTICLE)
+INSERT INTO `Article` (`User_id`,`A_description`,`Category_id`) VALUES ('4', 'it is category 3 article on scienceee',3);
+
+UPDATE `Article` SET `A_description` = 'it is category 3 article on science aluminium is malleable' WHERE `Article`.`A_id` = '6';
+
+DELETE FROM `Article` WHERE `A_id`= 6
+
+
+(COMMENTS)
+INSERT INTO `Comments` (`Article_id`,`Comment_by_user`, `Comment_description`) VALUES ('1','3', 'great article');
+
+UPDATE `Comments` SET `Comment_description` = 'great article excellent' WHERE `Comments`.`C_id` = '6';
+
+DELETE FROM `Comments` WHERE `C_id`= 6
+
+
+Ans2
+
+SELECT Article.`A_id`,Article.`A_description`,User.User_id,User.Name 
+FROM Article
+INNER JOIN User
+ON Article.User_id = User.User_id
+WHERE User.Name = 'User3'
+
+
+Ans3
+SELECT Article.`A_id`,Article.`A_description`,User.User_id,User.Name,Comments.C_id,Comments.Comment_description 
+FROM Article
+INNER JOIN User
+ON Article.User_id = User.User_id
+LEFT JOIN Comments
+ON Comments.Article_id = Article.A_id
+WHERE User.Name = 'User3'
+
+
+Ans3 using subquery
+
+select Comments.Article_id,Comments.C_id,Comments.Comment_description
+FROM Comments
+WHERE Article_id IN
+(SELECT Article.`A_id`
+FROM Article
+INNER JOIN User
+ON Article.User_id = User.User_id
+WHERE User.Name = 'User3')
+
+Ans 4
+SELECT DISTINCT Article.`A_id`,Article.`A_description`
+FROM Article
+LEFT JOIN Comments
+ON Comments.Article_id = Article.A_id
+WHERE Comments.C_id IS NULL
+
+Ans4 using subquery
+SELECT Article.A_id,Article.A_description 
+FROM Article
+WHERE Article.A_id NOT IN
+(SELECT DISTINCT Comments.Article_id
+FROM Comments)
+
+Ans5
+SELECT MAX(t.mycount) as " Max Comment count",t.Article_id,t.Article_Description FROM
+(SELECT COUNT(Comments.`C_id`) as "mycount",Article.`A_id` as "Article_id",Article.`A_description` as "Article_Description" 
+FROM Article
+LEFT JOIN Comments
+ON Comments.Article_id = Article.A_id
+GROUP BY(Article.`A_id`) ) t
+
+Ans6
+SELECT Article.A_id,Article.`A_description`
+FROM Article
+LEFT JOIN Comments
+ON Comments.Article_id = Article.A_id
+WHERE Comments.C_id IS NOT NULL
+GROUP BY Article.A_id
+HAVING COUNT(Comments.C_id) = COUNT(DISTINCT Comments.Comment_by_user)
+
