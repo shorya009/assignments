@@ -1,0 +1,209 @@
+ans1
+
+1) id - The id field will presents a sequential number of the SELECT query . If The query contains no subqueries nor 
+unions, then the id will be 1
+
+2) select_type - It is the type of SELECT query
+
+Various values it can take
+
+SIMPLE - Simple SELECT (not using UNION or subqueries)
+PRIMARY - Outermost SELECT
+UNION	- Second or later SELECT statement in a UNION
+DEPENDENT UNION - Second or later SELECT statement in a UNION, dependent on outer query
+UNION RESULT - Result of a UNION.
+SUBQUERY -	First SELECT in subquery
+DEPENDENT SUBQUERY - First SELECT in subquery, dependent on outer query
+DERIVED - Derived table
+DEPENDENT DERIVED	- Derived table dependent on another table
+MATERIALIZED - Materialized subquery
+UNCACHEABLE SUBQUERY - A subquery for which the result cannot be cached and must be re-evaluated for each row of the outer query
+UNCACHEABLE UNION	- The second or later select in a UNION that belongs to an uncacheable subquery 
+
+3) table - the table name, or alias
+
+4) type - defines how the tables are accessed / joined
+
+Various values it can take
+      
+      1) ALL - A full table scan is done for the table (all rows are read). This is bad if the table is large and the table is 
+               joined against a previous table, This happens when the optimizer could not find any usable index to access rows.
+
+      2) const - There is only one possibly matching row in the table. 
+
+      3) eq_ref -	A unique index is used to find the rows. 
+
+      4) fulltext - A fulltext index is used to access the rows.
+
+      5) index_merge - A 'range' access is done for for several index and the found rows are merged. 
+
+      6) index_subquery	- This is similar as ref, but used for sub queries that are transformed to key lookups.
+      
+      7) index - A full scan over the used index. 
+      
+      8) range -The table will be accessed with a key over one or more value ranges.
+      
+      9) ref_or_null - Like 'ref' but in addition another search for the 'null' value is done if the first value was not found.
+                       This happens usually with sub queries.
+                       
+      10) ref - A non unique index or prefix of an unique index is used to find the rows.
+      
+      11) unique_subquery - This is similar as eq_ref, but used for sub queries that are transformed to key lookups
+
+
+5) possible_keys - The possible_keys column indicates the indexes from which MySQL can choose to find the rows in this table
+
+6) key - The key column indicates the key (index) that MySQL actually decided to use
+
+7) key_len - It indicates the length of the key that MySQL decided to use, in bytes
+
+8) ref - The ref column shows which columns or constants are compared to the index named in the key column to select rows
+         from the table.
+ 
+9) rows - The rows column indicates the number of rows MySQL believes it must examine to execute the query.
+
+10) filtered - It tells about the estimated percentage of table rows that will be filtered by the table condition. 
+      The maximum value is 100, which means no filtering of rows occurred. ex- if there are 100 rows and and 50% is give it means
+      50 rows have been filtered
+      
+11) extra - The extra column of EXPLAIN output contains additional information about how MySQL resolves the query
+
+  various values it can take
+  
+       1) const row not found	- The table was a system table (a table with exactly one row), but no row was found.
+       
+       2) Distinct - If distinct optimization (remove duplicates) was used.
+       
+       3) Full scan on NULL key - The table is a part of the sub query and if the value that is used to match the sub query
+          will be NULL, we will do a full table scan.
+                                    
+       4) Impossible HAVING - The used HAVING clause is always false so the SELECT will return no rows.
+       
+       5) Impossible WHERE noticed after reading const tables -	The used WHERE clause is always false so the SELECT 
+          will return no rows. 
+                                                                 
+       6) Impossible WHERE - The used WHERE clause is always false so the SELECT will return no rows. For example: WHERE 1=2
+       
+       7)  No matching min/max row - During early optimization of MIN()/MAX() values it was detected that no row could match the
+           WHERE clause. The MIN()/MAX() function will return NULL.
+                                      
+       8) no matching row in const table - The table was a const table (a table with only one possible matching row),
+          but no row was found.
+                                            
+       9) No tables used - The SELECT was a sub query that did not use any tables. 
+       
+       10) Not exists -	Stop searching after more row if we find one single matching row. This optimization is used with 
+           LEFT JOIN where one is explicitly searching for rows that doesn't exists in the LEFT JOIN TABLE.
+                        
+       11) Open_frm_only - For information_schema tables. Only the frm (table definition file was opened) was opened 
+           for each matching row.
+                            
+       12) Open_full_table -	For information_schema tables. A full table open for each matching row is done to retrieve the 
+           requested information.
+       
+       13) - Open_trigger_only - For information_schema tables. Only the trigger file definition was opened for each 
+             matching row.
+         
+       14) - Range checked for each record (index map: ...)	- This only happens when there was no good default index to use 
+          but there may some index that could be used when we can treat all columns from previous table 
+          as constants. For each row combination the optimizer will decide which index to use (if any) 
+          to fetch a row from this table.
+          
+       15) - Scanned 0/1/all databases -	For information_schema tables. Shows how many times we had to do a directory scan.
+          
+       16) - Select tables optimized away	- All tables in the join was optimized away. This happens when we are only using
+       COUNT(*), MIN() and MAX() functions in the SELECT and we where able to replace all of these with constants.
+          
+       17) - Skip_open_table	- For information_schema tables. The queried table didn't need to be opened.
+          
+       18) - unique row not found	- The table was detected to be a const table (a table with only one possible matching row) 
+       during the early optimization phase, but no row was found.
+          
+       19) - Using filesort	- Filesort is needed to resolve the query. This means an extra phase where we first collect all 
+       columns to sort, sort them with a disk based merge sort and then use the sorted set to retrieve the rows in sorted
+       order. If the column set is small, we store all the columns in the sort file to not have to go to the database to 
+       retrieve them again.
+          
+       20) - Using index -	Only the index is used to retrieve the needed information from the table. There is no need to 
+       perform an extra seek to retrieve the actual record.
+          
+       21) -  Using index condition	- Like 'Using where' but the where condition is pushed down to the table engine for 
+       internal optimization at the index level.
+          
+       22) - Using index condition(BKA) -	Like 'Using index condition' but in addition we use batch key access to
+        retrieve rows.
+          
+       23) - Using index for group-by - The index is being used to resolve a GROUP BY or DISTINCT query. The rows are 
+        not read. This is very efficient if the table has a lot of identical index entries as duplicates are quickly
+        jumped over.
+          
+       24) - Using intersect(...) - For index_merge joins. Shows which index are part of the intersect.
+          
+       25) - Using join buffer - We store previous row combinations in a row buffer to be able to match each row against 
+        all of the rows combinations in the join buffer at one go.
+          
+       26) - Using sort_union(...)	- For index_merge joins. Shows which index are part of the union.
+          
+       27) - Using temporary	- A temporary table is created to hold the result. This typically happens if you are using 
+        GROUP BY, DISTINCT or ORDER BY.
+          
+       28) - Using where - A WHERE expression (in additional to the possible key lookup) is used to check if the row should
+        be accepted. 
+          
+       29) - Using where with pushed condition - Like 'Using where' but the where condition is pushed down to the table 
+        engine for internal optimization at the row level.
+          
+       30) - Using buffer - The UPDATE statement will first buffer the rows, and then run the updates, rather than do 
+        updates on the fly. 
+
+
+ans 2.1
+It means total no. of rows present in table and the number of rows mysql is traversing to find the answer is same.
+
+ans 2.2
+Select query is not optimal.we need to add index on user_id coloumn.
+
+ans 3.1
+first I will index user_id coloumn then I will index commentable_type coloumn
+
+ans 4.1
+explaination using join
+
+id   select_type    table     type    possible_keys     key     key_len    ref     rows   Extra
+1      SIMPLE        User      ALL      PRIMARY         NULL     NULL      NULL      4     Using where;
+1      SIMPLE        Article   ALL      Article_ibfk_1  NULL     NULL      NULL      5     Using where; Using join buffer (flat, BNL join)
+
+1)  id - The query above contains no subqueries nor unions, so therefore the id for both rows is 1, as there is 
+   actually only 1 query.
+   
+2) select_type - simple means no subquery or union has been used 
+
+3) table - means alias used by the query 
+
+4) type - ALL means query will scan all the records
+
+5) possible_keys - The optional indexes MySQL can choose from, to look up for rows in the table
+
+6) key - This column indicates the actual index MySQL decided to use.
+
+7) key_len - It indicates the length of the key that MySQL decided to use, in bytes.
+
+8) rows - Indicates the amount of rows MySQL believes it must examine from this table, to execute the query. 
+
+9) extra - 1) using where - A WHERE expression is used to check if the row should be accepted. 
+
+           2)  Using join buffer - We store previous row combinations in a row buffer to be able to match each row against 
+               all of the rows combinations in the join buffer at one go.
+
+ans 4.1
+explaination using subquery
+
+id  select_type  table      type    possible_keys      key     key_len     ref     rows     Extra
+1   Primary      Article    ALL       Article_ibfk_1   NULL     NULL       NULL     5       Using where    
+2   SUBQUERY     User       ALL       NULL             NULL     NULL       NULL     4       Using where
+
+ANS 4.2
+the performance of the query using join will be better because of the presence of possible_keys where as in subquery 
+it consist of NULL value as well which means absence of any possible index to search the coloumn
+
+
