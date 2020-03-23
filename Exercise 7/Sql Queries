@@ -10,15 +10,15 @@ Various values it can take
 SIMPLE - Simple SELECT (not using UNION or subqueries)
 PRIMARY - Outermost SELECT
 UNION	- Second or later SELECT statement in a UNION
-DEPENDENT UNION	-	Second or later SELECT statement in a UNION, dependent on outer query
-UNION RESULT - 	Result of a UNION.
+DEPENDENT UNION - Second or later SELECT statement in a UNION, dependent on outer query
+UNION RESULT - Result of a UNION.
 SUBQUERY -	First SELECT in subquery
-DEPENDENT SUBQUERY	-	First SELECT in subquery, dependent on outer query
-DERIVED	-	Derived table
-DEPENDENT DERIVED	-	Derived table dependent on another table
-MATERIALIZED	-	Materialized subquery
-UNCACHEABLE SUBQUERY	-	A subquery for which the result cannot be cached and must be re-evaluated for each row of the outer query
-UNCACHEABLE UNION	-	The second or later select in a UNION that belongs to an uncacheable subquery 
+DEPENDENT SUBQUERY - First SELECT in subquery, dependent on outer query
+DERIVED - Derived table
+DEPENDENT DERIVED	- Derived table dependent on another table
+MATERIALIZED - Materialized subquery
+UNCACHEABLE SUBQUERY - A subquery for which the result cannot be cached and must be re-evaluated for each row of the outer query
+UNCACHEABLE UNION	- The second or later select in a UNION that belongs to an uncacheable subquery 
 
 3) table - the table name, or alias
 
@@ -75,34 +75,34 @@ Various values it can take
        2) Distinct - If distinct optimization (remove duplicates) was used.
        
        3) Full scan on NULL key - The table is a part of the sub query and if the value that is used to match the sub query
-                                    will be NULL, we will do a full table scan.
+          will be NULL, we will do a full table scan.
                                     
        4) Impossible HAVING - The used HAVING clause is always false so the SELECT will return no rows.
        
        5) Impossible WHERE noticed after reading const tables -	The used WHERE clause is always false so the SELECT 
-                                                                 will return no rows. 
+          will return no rows. 
                                                                  
        6) Impossible WHERE - The used WHERE clause is always false so the SELECT will return no rows. For example: WHERE 1=2
        
        7)  No matching min/max row - During early optimization of MIN()/MAX() values it was detected that no row could match the
-                                      WHERE clause. The MIN()/MAX() function will return NULL.
+           WHERE clause. The MIN()/MAX() function will return NULL.
                                       
        8) no matching row in const table - The table was a const table (a table with only one possible matching row),
-                                            but no row was found.
+          but no row was found.
                                             
        9) No tables used - The SELECT was a sub query that did not use any tables. 
        
        10) Not exists -	Stop searching after more row if we find one single matching row. This optimization is used with 
-                        LEFT JOIN where one is explicitly searching for rows that doesn't exists in the LEFT JOIN TABLE.
+           LEFT JOIN where one is explicitly searching for rows that doesn't exists in the LEFT JOIN TABLE.
                         
        11) Open_frm_only - For information_schema tables. Only the frm (table definition file was opened) was opened 
-                            for each matching row.
+           for each matching row.
                             
        12) Open_full_table -	For information_schema tables. A full table open for each matching row is done to retrieve the 
-                              requested information.
+           requested information.
        
        13) - Open_trigger_only - For information_schema tables. Only the trigger file definition was opened for each 
-                                matching row.
+             matching row.
          
        14) - Range checked for each record (index map: ...)	- This only happens when there was no good default index to use 
           but there may some index that could be used when we can treat all columns from previous table 
