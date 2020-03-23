@@ -26,16 +26,16 @@ UNCACHEABLE UNION	-	The second or later select in a UNION that belongs to an unc
 
 Various values it can take
       
-      1) ALL	- A full table scan is done for the table (all rows are read). This is bad if the table is large and the table is 
-                joined against a previous table, This happens when the optimizer could not find any usable index to access rows.
+      1) ALL - A full table scan is done for the table (all rows are read). This is bad if the table is large and the table is 
+               joined against a previous table, This happens when the optimizer could not find any usable index to access rows.
 
       2) const - There is only one possibly matching row in the table. 
 
       3) eq_ref -	A unique index is used to find the rows. 
 
-      4) fulltext -	A fulltext index is used to access the rows.
+      4) fulltext - A fulltext index is used to access the rows.
 
-      5) index_merge	A 'range' access is done for for several index and the found rows are merged. 
+      5) index_merge - A 'range' access is done for for several index and the found rows are merged. 
 
       6) index_subquery	- This is similar as ref, but used for sub queries that are transformed to key lookups.
       
@@ -46,9 +46,9 @@ Various values it can take
       9) ref_or_null - Like 'ref' but in addition another search for the 'null' value is done if the first value was not found.
                        This happens usually with sub queries.
                        
-      10) ref -	A non unique index or prefix of an unique index is used to find the rows.
+      10) ref - A non unique index or prefix of an unique index is used to find the rows.
       
-      11) unique_subquery	- This is similar as eq_ref, but used for sub queries that are transformed to key lookups
+      11) unique_subquery - This is similar as eq_ref, but used for sub queries that are transformed to key lookups
 
 
 5) possible_keys - The possible_keys column indicates the indexes from which MySQL can choose to find the rows in this table
@@ -72,36 +72,36 @@ Various values it can take
   
        1) const row not found	- The table was a system table (a table with exactly one row), but no row was found.
        
-       2) Distinct -	If distinct optimization (remove duplicates) was used.
+       2) Distinct - If distinct optimization (remove duplicates) was used.
        
        3) Full scan on NULL key - The table is a part of the sub query and if the value that is used to match the sub query
                                     will be NULL, we will do a full table scan.
                                     
-       4) Impossible HAVING	- The used HAVING clause is always false so the SELECT will return no rows.
+       4) Impossible HAVING - The used HAVING clause is always false so the SELECT will return no rows.
        
        5) Impossible WHERE noticed after reading const tables -	The used WHERE clause is always false so the SELECT 
                                                                  will return no rows. 
                                                                  
        6) Impossible WHERE - The used WHERE clause is always false so the SELECT will return no rows. For example: WHERE 1=2
        
-       7)  No matching min/max row -	During early optimization of MIN()/MAX() values it was detected that no row could match the
+       7)  No matching min/max row - During early optimization of MIN()/MAX() values it was detected that no row could match the
                                       WHERE clause. The MIN()/MAX() function will return NULL.
                                       
-       8) no matching row in const table -	The table was a const table (a table with only one possible matching row),
+       8) no matching row in const table - The table was a const table (a table with only one possible matching row),
                                             but no row was found.
                                             
-       9) No tables used	- The SELECT was a sub query that did not use any tables. 
+       9) No tables used - The SELECT was a sub query that did not use any tables. 
        
        10) Not exists -	Stop searching after more row if we find one single matching row. This optimization is used with 
                         LEFT JOIN where one is explicitly searching for rows that doesn't exists in the LEFT JOIN TABLE.
                         
-       11) Open_frm_only -	For information_schema tables. Only the frm (table definition file was opened) was opened 
+       11) Open_frm_only - For information_schema tables. Only the frm (table definition file was opened) was opened 
                             for each matching row.
                             
        12) Open_full_table -	For information_schema tables. A full table open for each matching row is done to retrieve the 
                               requested information.
        
-       13) - Open_trigger_only	- For information_schema tables. Only the trigger file definition was opened for each 
+       13) - Open_trigger_only - For information_schema tables. Only the trigger file definition was opened for each 
                                 matching row.
          
        14) - Range checked for each record (index map: ...)	- This only happens when there was no good default index to use 
@@ -133,13 +133,13 @@ Various values it can take
        22) - Using index condition(BKA) -	Like 'Using index condition' but in addition we use batch key access to
         retrieve rows.
           
-       23) - Using index for group-by	- The index is being used to resolve a GROUP BY or DISTINCT query. The rows are 
+       23) - Using index for group-by - The index is being used to resolve a GROUP BY or DISTINCT query. The rows are 
         not read. This is very efficient if the table has a lot of identical index entries as duplicates are quickly
         jumped over.
           
        24) - Using intersect(...) - For index_merge joins. Shows which index are part of the intersect.
           
-       25) - Using join buffer	- We store previous row combinations in a row buffer to be able to match each row against 
+       25) - Using join buffer - We store previous row combinations in a row buffer to be able to match each row against 
         all of the rows combinations in the join buffer at one go.
           
        26) - Using sort_union(...)	- For index_merge joins. Shows which index are part of the union.
@@ -147,13 +147,13 @@ Various values it can take
        27) - Using temporary	- A temporary table is created to hold the result. This typically happens if you are using 
         GROUP BY, DISTINCT or ORDER BY.
           
-       28) - Using where -	A WHERE expression (in additional to the possible key lookup) is used to check if the row should
+       28) - Using where - A WHERE expression (in additional to the possible key lookup) is used to check if the row should
         be accepted. 
           
-       29) - Using where with pushed condition	- Like 'Using where' but the where condition is pushed down to the table 
+       29) - Using where with pushed condition - Like 'Using where' but the where condition is pushed down to the table 
         engine for internal optimization at the row level.
           
-       30) - Using buffer	The UPDATE statement will first buffer the rows, and then run the updates, rather than do 
+       30) - Using buffer - The UPDATE statement will first buffer the rows, and then run the updates, rather than do 
         updates on the fly. 
 
 
@@ -169,18 +169,18 @@ first I will index user_id coloumn then I will index commentable_type coloumn
 ans 4.1
 explaination using join
 
-id   select_type    table   type    possible_keys    key     key_len    ref              rows   Extra
-1      SIMPLE        A      ALL      NULL            NULL     NULL      NULL              4
-1      SIMPLE        C      ref      A_id            A_id     1022      Articles.A.A_id   1     Using where
+id   select_type    table     type    possible_keys     key     key_len    ref     rows   Extra
+1      SIMPLE        User      ALL      PRIMARY         NULL     NULL      NULL      4     Using where;
+1      SIMPLE        Article   ALL      Article_ibfk_1  NULL     NULL      NULL      5     Using where; Using join buffer (flat, BNL join)
 
 1)  id - The query above contains no subqueries nor unions, so therefore the id for both rows is 1, as there is 
    actually only 1 query.
    
 2) select_type - simple means no subquery or union has been used 
 
-3) table - means alias used by the query here A is for Article and C is for Commentid table
+3) table - means alias used by the query 
 
-4) type - all means query will scan all the records
+4) type - ALL means query will scan all the records
 
 5) possible_keys - The optional indexes MySQL can choose from, to look up for rows in the table
 
@@ -190,15 +190,20 @@ id   select_type    table   type    possible_keys    key     key_len    ref     
 
 8) rows - Indicates the amount of rows MySQL believes it must examine from this table, to execute the query. 
 
-9) extra - using where - A WHERE expression is used to check if the row should be accepted. 
+9) extra - 1) using where - A WHERE expression is used to check if the row should be accepted. 
+
+           2)  Using join buffer - We store previous row combinations in a row buffer to be able to match each row against 
+               all of the rows combinations in the join buffer at one go.
 
 explaination using subquery
 
-id  select_type  table      type    possible_keys   key     key_len     ref             rows    Extra
-1   Primary      Article    ALL       NULL         NULL     NULL       NULL               4
-1   Primary      Commentid  ref       A_id         A_id     1022      Articles.A.A_id     1     Using where; FirstMatch(Article)
+id  select_type  table      type    possible_keys      key     key_len     ref     rows     Extra
+1   Primary      Article    ALL       Article_ibfk_1   NULL     NULL       NULL     5       Using where    
+2   SUBQUERY     User       ALL       NULL             NULL     NULL       NULL     4       Using where
 
-the performance of both queries are same since number of rows that will be traversed is same in both the queries on changes are select
-type and table coloumn and extra coloumn
+ANS 4.2
+the performance of the query using join will be better because of the presence of possible_keys where as in subquery 
+it consist of NULL value as well which means absence of any possible index to search the coloumn
+
 
 
