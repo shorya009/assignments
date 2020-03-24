@@ -62,28 +62,28 @@ ON comments.article_id = article.id
 WHERE comments.id IS NULL
 
 Ans4 using subquery
-SELECT Article.A_id,Article.A_description 
-FROM Article
-WHERE Article.A_id NOT IN
-(SELECT DISTINCT Comments.Article_id
-FROM Comments)
+SELECT article.id,article.article_description 
+FROM article
+WHERE article.id NOT IN
+(SELECT DISTINCT comments.article_id
+FROM comments)
 
 Ans5
-SELECT MAX(t.mycount) as " Max Comment count",t.Article_id,t.Article_Description FROM
-(SELECT COUNT(Comments.`C_id`) as "mycount",Article.`A_id` as "Article_id",Article.`A_description` as "Article_Description" 
-FROM Article
-LEFT JOIN Comments
-ON Comments.Article_id = Article.A_id
-GROUP BY(Article.`A_id`) ) t
+SELECT COUNT(comments.`id`) as "mycount",article.`id` as "Article_id",article.`article_description` as "Article_Description" 
+FROM article
+LEFT JOIN comments
+ON comments.article_id = article.id
+GROUP BY(article.`id`)
+ORDER by mycount DESC LIMIT 1
 
 Ans6
-SELECT Article.A_id,Article.`A_description`
-FROM Article
-LEFT JOIN Comments
-ON Comments.Article_id = Article.A_id
-WHERE Comments.C_id IS NOT NULL
-GROUP BY Article.A_id
-HAVING COUNT(Comments.C_id) = COUNT(DISTINCT Comments.Comment_by_user)
+SELECT article.id,article.`article_description`
+FROM article
+LEFT JOIN comments
+ON comments.article_id = article.id
+WHERE comments.id IS NOT NULL
+GROUP BY article.id
+HAVING COUNT(comments.id) = COUNT(DISTINCT comments.comment_by_user)
 
 
 
