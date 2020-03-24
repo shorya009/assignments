@@ -85,3 +85,21 @@ WHERE Comments.C_id IS NOT NULL
 GROUP BY Article.A_id
 HAVING COUNT(Comments.C_id) = COUNT(DISTINCT Comments.Comment_by_user)
 
+
+
+CREATE INDEX i1 ON user(id)
+CREATE INDEX i2 ON user(name)
+
+CREATE INDEX i3 ON category(id);
+CREATE INDEX i4 ON category(name);
+
+
+CREATE INDEX i5 ON article(id);
+CREATE INDEX i6 ON article(user_id);
+CREATE INDEX i7 ON article(category_id);
+
+
+CREATE INDEX i5 ON comments(id);
+CREATE INDEX i6 ON comments(comment_by_user);
+CREATE INDEX i7 ON comments(article_id);
+
