@@ -1,26 +1,22 @@
 ANS1
 
-SELECT t.ID,t.NAME,MAX(Total_Commission)
-FROM
-(SELECT Employees.ID,Employees.NAME,sum(Commissions.COMMISSION_AMOUNT) as "Total_Commission" 
+SELECT Employees.ID,Employees.NAME,sum(Commissions.COMMISSION_AMOUNT) as "Total_Commission" 
 FROM `Employees` INNER JOIN Commissions ON Employees.ID = Commissions.EMPLOYEE_ID
 GROUP BY Employees.ID
-ORDER BY Employees.ID) t
+ORDER BY Total_Commission desc LIMIT 1
 
 ANS2
 
-SELECT * FROM `Employees` ORDER BY(SALARY) DESC LIMIT 3,1
+SELECT * FROM Employees WHERE SALARY = (SELECT SALARY FROM `Employees` ORDER BY(SALARY) DESC LIMIT 3,1)
 
 ANS3
 
-SELECT MAX(t.Total_Commission) as "Total_Max Commision",t.Departments_ID,t.Departments_Name
-FROM
-(SELECT sum(Commissions.COMMISSION_AMOUNT) as "Total_Commission",Departments.ID as "Departments_ID",Departments.NAME as "Departments_Name" 
+SELECT sum(Commissions.COMMISSION_AMOUNT) as "Total_Commission",Departments.ID as "Departments_ID",Departments.NAME as "Departments_Name" 
 FROM `Employees` 
 INNER JOIN Commissions ON Employees.ID = Commissions.EMPLOYEE_ID
 INNER JOIN Departments ON Employees.DEPARTMENT_ID = Departments.ID
 GROUP BY Departments.ID
-ORDER BY Departments.ID) t
+ORDER BY Total_Commission DESC LIMIT 1
 
 ANS4
 
