@@ -164,7 +164,51 @@ ans 2.2
 Select query is not optimal.we need to add index on user_id coloumn.
 
 ans 3.1
-first I will index user_id coloumn then I will index commentable_type coloumn
+
+create database explain
+
+  CREATE TABLE `comments` ( `id` integer(255) NOT NULL AUTO_INCREMENT, `commentable_type` ENUM ('Article','Photo') NOT NULL,
+`commentable_id` integer(255) NOT NULL,`user_id` integer(255) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+INSERT INTO `comments` ( `commentable_type`,`commentable_id`,`user_id`) VALUES
+('Article',1,1),
+('Photo',1,1),
+('Photo',2,2),
+('Photo',2,2),
+('Article',1,2);
+
+
+id   select_type    table     type    possible_keys     key     key_len    ref     rows   Extra
+1      SIMPLE      comments    ALL         NULL         NULL     NULL      NULL      5     Using where;
+
+
+CREATE INDEX i1 on comments(commentable_id);
+results
+
+id   select_type    table     type    possible_keys     key     key_len    ref     rows   Extra
+1      SIMPLE      comments    ALL         i1           NULL     NULL      NULL      5     Using where;
+
+
+CREATE INDEX i1 on comments(commentable_id)
+CREATE INDEX i2 on comments(commentable_type);
+results 
+
+id   select_type    table     type    possible_keys     key     key_len    ref     rows   Extra
+1      SIMPLE      comments    ALL         i1,i2         i1         4     const      3     Using where;
+
+
+CREATE INDEX i1 on comments(commentable_id)
+CREATE INDEX i2 on comments(commentable_type);
+CREATE INDEX i3 on comments(user_id);
+
+id   select_type    table     type           possible_keys     key     key_len    ref     rows   Extra
+1      SIMPLE      comments  index_merge      i1,i2,i3        i2,i3       1,4     NULL      1    Using intersect(i2,i3); Using where
+
+above mentioned tables is the sequence of indexes I followed after indexing only commentable_id mysql had to traverse all the rows
+present in the table to find the ans next I indexed commentable_type then mysql had to traverse 3 rows to find the ans and then I indexed
+user_id after indexing theses 3 coloumns results showed that mysql was able to find the ans with returning only 1 row which is the most 
+optimised solution
 
 ans 4.1
 explaination using join
