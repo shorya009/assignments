@@ -1,22 +1,20 @@
 Ans 1
 
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
-UPDATE Accounts SET `Balance` = Balance + 1000 WHERE `Account_no`=1234;
+UPDATE accounts SET `balance` = balance + 1000 WHERE `account_no`=1234;
 COMMIT;
 
 Ans 2
 
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
-UPDATE Accounts SET `Balance` = Balance - 500 WHERE `Account_no`=1234;
+UPDATE accounts SET `balance` = balance - 500 WHERE `account_no`=1234;
 COMMIT;
 
 Ans3
 
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
-UPDATE Accounts SET `Balance` = CASE WHEN `Account_no` = 1234 THEN balance-200
-WHEN `Account_no` = 1235 THEN balance+200
-END;
+UPDATE accounts SET `balance` = balance - 200 WHERE `account_no`=1234;
+UPDATE accounts SET `balance` = balance + 200 WHERE `account_no`=1235;
 COMMIT;
+
+
