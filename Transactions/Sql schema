@@ -1,22 +1,28 @@
+CREATE DATABASE bank
 
-CREATE TABLE `Accounts` (
-  `Id` varchar(255) NOT NULL,
-  `Account_no` int(255) NOT NULL,
-  `Balance` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `users` (
+  `id` integer(255) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `account_no` int(255) NOT NULL,
+   PRIMARY KEY(id)
+)
 
-INSERT INTO `Accounts` (`Id`, `Account_no`, `Balance`) VALUES
-('a1', 1234, 10300),
-('a2', 1235, 20200);
+INSERT INTO `users` (`name`, `email`, `account_no`) VALUES
+('Rohan', 'rohan@gmail.com', 1234),
+('Sohan', 'Sohan@gmail.com', 1235);
 
-CREATE TABLE `Users` (
-  `Id` varchar(255) NOT NULL,
-  `Name` varchar(255) NOT NULL,
-  `Email` varchar(255) NOT NULL,
-  `Account_no` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `Users` (`Id`, `Name`, `Email`, `Account_no`) VALUES
-('userA', 'Rohan', 'rohan@gmail.com', 1234),
-('userB', 'Sohan', 'Sohan@gmail.com', 1235);
+CREATE TABLE `accounts` (
+  `id` integer(255) NOT NULL AUTO_INCREMENT,
+  `account_no` int(255) NOT NULL,
+  `balance` float NOT NULL,
+    PRIMARY KEY (id)
+)
+
+INSERT INTO `accounts` (`account_no`, `balance`) VALUES
+(1234, 10300),
+(1235, 20200);
+
+
 
