@@ -206,7 +206,7 @@ id   select_type    table     type           possible_keys     key     key_len  
 1      SIMPLE      comments  index_merge      i1,i2,i3        i2,i3       1,4     NULL      1    Using intersect(i2,i3); Using where
 
 above mentioned tables is the sequence of indexes I followed after indexing only commentable_id mysql had to traverse all the rows
-present in the table to find the ans next I indexed commentable_type then mysql had to traverse 3 rows to find the ans and then I indexed
+present in the table to find the ans , next I indexed commentable_type then mysql had to traverse 3 rows to find the ans and then I indexed
 user_id after indexing theses 3 coloumns results showed that mysql was able to find the ans with returning only 1 row which is the most 
 optimised solution
 
@@ -214,8 +214,8 @@ ans 4.1
 explaination using join
 
 id   select_type    table     type    possible_keys     key     key_len    ref     rows   Extra
-1      SIMPLE        User      ALL      PRIMARY         NULL     NULL      NULL      4     Using where;
-1      SIMPLE        Article   ALL      Article_ibfk_1  NULL     NULL      NULL      5     Using where; Using join buffer (flat, BNL join)
+1      SIMPLE        user      ref    PRIMARY,i1,i2     i2       1022     const      1     Using index condition
+1      SIMPLE        article   ALL    i6                NULL     NULL      NULL      5     Using where; Using join buffer (flat, BNL join)
 
 1)  id - The query above contains no subqueries nor unions, so therefore the id for both rows is 1, as there is 
    actually only 1 query.
@@ -224,7 +224,8 @@ id   select_type    table     type    possible_keys     key     key_len    ref  
 
 3) table - means alias used by the query 
 
-4) type - ALL means query will scan all the records
+4) type - ref - there can be multiple matching rows and access will be done through an index.
+           ALL - means query will scan all the records
 
 5) possible_keys - The optional indexes MySQL can choose from, to look up for rows in the table
 
@@ -232,22 +233,29 @@ id   select_type    table     type    possible_keys     key     key_len    ref  
 
 7) key_len - It indicates the length of the key that MySQL decided to use, in bytes.
 
+8) ref - ref tells us about which columns or constants are compared to the index picked by the optimizer. In our case this is ‘const’ 
+         as we are using a constant in the WHERE clause.
+
 8) rows - Indicates the amount of rows MySQL believes it must examine from this table, to execute the query. 
 
-9) extra - 1) using where - A WHERE expression is used to check if the row should be accepted. 
+9) extra - 1) using index - Tables are read by accessing index tuples and testing them first to determine whether to read full table rows. 
 
-           2)  Using join buffer - We store previous row combinations in a row buffer to be able to match each row against 
+           2) using where - A WHERE expression is used to check if the row should be accepted. 
+
+           3)  Using join buffer - We store previous row combinations in a row buffer to be able to match each row against 
                all of the rows combinations in the join buffer at one go.
 
 ans 4.1
 explaination using subquery
 
 id  select_type  table      type    possible_keys      key     key_len     ref     rows     Extra
-1   Primary      Article    ALL       Article_ibfk_1   NULL     NULL       NULL     5       Using where    
-2   SUBQUERY     User       ALL       NULL             NULL     NULL       NULL     4       Using where
+1   Primary      article    ALL       i6               NULL     NULL       NULL     5       Using where    
+2   SUBQUERY     user       ref       i2               i2       1022       const    1       Using where; Using index
+
 
 ANS 4.2
-the performance of the query using join will be better because of the presence of possible_keys where as in subquery 
-it consist of NULL value as well which means absence of any possible index to search the coloumn
+In both the explain tables we can see the number of rows mysql need to access is same ie 1*5 = 5 in join table and 5*1 = 5
+but in join table mysql starts with user table and returns 1 row as compared to subquery table wich returns all the rows so 
+in practice performance of query using join is better than query using subquery
 
 
