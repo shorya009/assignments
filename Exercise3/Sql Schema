@@ -59,3 +59,20 @@ INSERT INTO `comments` (`article_id`,`comment_by_user`, `comment_description`) V
 ('1','4', 'nice article'),
 ('5','3','nicely written'),
 ('2','4', 'good work');
+
+
+CREATE INDEX i1 ON user(id)
+CREATE INDEX i2 ON user(name)
+
+CREATE INDEX i3 ON category(id);
+CREATE INDEX i4 ON category(name);
+
+
+CREATE INDEX i5 ON article(id);
+CREATE INDEX i6 ON article(user_id);
+CREATE INDEX i7 ON article(category_id);
+
+
+CREATE INDEX i5 ON comments(id);
+CREATE INDEX i6 ON comments(comment_by_user);
+CREATE INDEX i7 ON comments(article_id);
