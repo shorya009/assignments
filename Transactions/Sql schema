@@ -9,8 +9,8 @@ CREATE TABLE `users` (
 )
 
 INSERT INTO `users` (`name`, `email`, `account_no`) VALUES
-('Rohan', 'rohan@gmail.com', 1234),
-('Sohan', 'Sohan@gmail.com', 1235);
+('userA', 'userA@gmail.com', 1234),
+('userB', 'userB@gmail.com', 1235);
 
 
 CREATE TABLE `accounts` (
