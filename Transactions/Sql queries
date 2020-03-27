@@ -1,20 +1,39 @@
 Ans 1
 
 START TRANSACTION;
-UPDATE accounts SET `balance` = balance + 1000 WHERE `account_no`=1234;
+UPDATE accounts a
+INNER JOIN users u on
+    u.account_no = a.account_no
+SET `balance` = balance + 1000 
+WHERE u.`name`='userA';
 COMMIT;
 
 Ans 2
 
 START TRANSACTION;
-UPDATE accounts SET `balance` = balance - 500 WHERE `account_no`=1234;
+UPDATE accounts a
+INNER JOIN users u on
+    u.account_no = a.account_no
+SET `balance` = balance - 500 
+WHERE u.`name`='userB';
 COMMIT;
 
 Ans3
 
 START TRANSACTION;
-UPDATE accounts SET `balance` = balance - 200 WHERE `account_no`=1234;
-UPDATE accounts SET `balance` = balance + 200 WHERE `account_no`=1235;
+
+UPDATE accounts a
+INNER JOIN users u on
+    u.account_no = a.account_no
+SET `balance` = balance - 200 
+WHERE u.`name`='userA';
+
+UPDATE accounts a
+INNER JOIN users u on
+    u.account_no = a.account_no
+SET `balance` = balance + 200 
+WHERE u.`name`='userB';
+
 COMMIT;
 
 
