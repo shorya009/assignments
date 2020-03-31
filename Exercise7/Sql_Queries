@@ -179,36 +179,16 @@ INSERT INTO `comments` ( `commentable_type`,`commentable_id`,`user_id`) VALUES
 ('Article',1,2);
 
 
-id   select_type    table     type    possible_keys     key     key_len    ref     rows   Extra
-1      SIMPLE      comments    ALL         NULL         NULL     NULL      NULL      5     Using where;
+CREATE INDEX i1 ON comments(commentable_id,commentable_type,`user_id`)
+
+id   select_type   table     type    possible_keys     key     key_len    ref                rows   Extra
+1    SIMPLE        comments   ref       i1             i1          9     const,const,const    1     Using where; Using index
 
 
-CREATE INDEX i1 on comments(commentable_id);
-results
-
-id   select_type    table     type    possible_keys     key     key_len    ref     rows   Extra
-1      SIMPLE      comments    ALL         i1           NULL     NULL      NULL      5     Using where;
-
-
-CREATE INDEX i1 on comments(commentable_id)
-CREATE INDEX i2 on comments(commentable_type);
-results 
-
-id   select_type    table     type    possible_keys     key     key_len    ref     rows   Extra
-1      SIMPLE      comments    ALL         i1,i2         i1         4     const      3     Using where;
-
-
-CREATE INDEX i1 on comments(commentable_id)
-CREATE INDEX i2 on comments(commentable_type);
-CREATE INDEX i3 on comments(user_id);
-
-id   select_type    table     type           possible_keys     key     key_len    ref     rows   Extra
-1      SIMPLE      comments  index_merge      i1,i2,i3        i2,i3       1,4     NULL      1    Using intersect(i2,i3); Using where
-
-above mentioned tables is the sequence of indexes I followed after indexing only commentable_id mysql had to traverse all the rows
-present in the table to find the ans , next I indexed commentable_type then mysql had to traverse 3 rows to find the ans and then I indexed
-user_id after indexing theses 3 coloumns results showed that mysql was able to find the ans with returning only 1 row which is the most 
-optimised solution
+If certain fields tend to appear together in queries, then it’s a good idea to create a composite index on them,thus 
+i created a composite index i1 on table comments while creating composite index we have to be carefull while choosing the order 
+in which the fields are written thus in explian query mysql was able to find the answer in most optimized way by
+traversing only 1 row
 
 ans 4.1
 explaination using join
