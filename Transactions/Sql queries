@@ -1,22 +1,21 @@
 Ans 1
 
-START TRANSACTION;
 UPDATE accounts a
 INNER JOIN users u on
     u.account_no = a.account_no
 SET `balance` = balance + 1000 
 WHERE u.`name`='userA';
-COMMIT;
+
 
 Ans 2
 
-START TRANSACTION;
+
 UPDATE accounts a
 INNER JOIN users u on
     u.account_no = a.account_no
 SET `balance` = balance - 500 
 WHERE u.`name`='userB';
-COMMIT;
+
 
 Ans3
 
@@ -28,6 +27,9 @@ INNER JOIN users u on
 SET `balance` = balance - 200 
 WHERE u.`name`='userA';
 
+COMMIT;
+
+START TRANSACTION;
 UPDATE accounts a
 INNER JOIN users u on
     u.account_no = a.account_no
