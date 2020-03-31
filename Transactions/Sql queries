@@ -27,9 +27,6 @@ INNER JOIN users u on
 SET `balance` = balance - 200 
 WHERE u.`name`='userA';
 
-COMMIT;
-
-START TRANSACTION;
 UPDATE accounts a
 INNER JOIN users u on
     u.account_no = a.account_no
