@@ -179,7 +179,7 @@ INSERT INTO `comments` ( `commentable_type`,`commentable_id`,`user_id`) VALUES
 ('Article',1,2);
 
 
-CREATE INDEX i1 ON comments(commentable_id,commentable_type,`user_id`)
+CREATE INDEX i1 ON comments(commentable_id,commentable_type,user_id)
 
 id   select_type   table     type    possible_keys     key     key_len    ref                rows   Extra
 1    SIMPLE        comments   ref       i1             i1          9     const,const,const    1     Using where; Using index
