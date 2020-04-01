@@ -34,7 +34,7 @@ WHERE user.`name` = 'User3'
 
 
 Ans3
-SELECT article.`id`,article.`article_description`,user.id,user.name,comments.id,comments.comment_description 
+SELECT article.`id`,article.`description`,user.id,user.name,comments.id,comments.description 
 FROM article
 INNER JOIN user
 ON article.user_id = user.id
@@ -45,7 +45,7 @@ WHERE user.name = 'User3'
 
 Ans3 using subquery
 
-select comments.article_id,comments.id,comments.comment_description
+select comments.article_id,comments.id,comments.description
 FROM comments
 WHERE article_id IN
 (SELECT article.`id`
@@ -55,21 +55,21 @@ ON article.user_id = user.id
 WHERE user.name = 'User3')
 
 Ans 4
-SELECT DISTINCT article.`id`,article.`article_description`
+SELECT DISTINCT article.`id`,article.`description`
 FROM article
 LEFT JOIN comments
 ON comments.article_id = article.id
 WHERE comments.id IS NULL
 
 Ans4 using subquery
-SELECT article.id,article.article_description 
+SELECT article.id,article.description 
 FROM article
 WHERE article.id NOT IN
 (SELECT DISTINCT comments.article_id
 FROM comments)
 
 Ans5
-SELECT COUNT(comments.`id`) as "mycount",article.`id` as "Article_id",article.`article_description` as "Article_Description" 
+SELECT COUNT(comments.`id`) as "mycount",article.`id` as "Article_id",article.`description` as "Article_Description" 
 FROM article
 LEFT JOIN comments
 ON comments.article_id = article.id
@@ -77,13 +77,13 @@ GROUP BY(article.`id`)
 ORDER by mycount DESC LIMIT 1
 
 Ans6
-SELECT article.id,article.`article_description`
+SELECT article.id,article.`description`
 FROM article
 LEFT JOIN comments
 ON comments.article_id = article.id
 WHERE comments.id IS NOT NULL
 GROUP BY article.id
-HAVING COUNT(comments.id) = COUNT(DISTINCT comments.comment_by_user)
+HAVING COUNT(comments.id) = COUNT(DISTINCT comments.user_id)
 
 
 
