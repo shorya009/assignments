@@ -1,5 +1,5 @@
 create database restored;
 
-mysqldump -u root -h localhost -p Explain > restored.sql
+mysqldump -u root -h localhost -p Explain > Explain.sql
 
-mysql -u root -h localhost -p restored < restored.sql
+mysql -u root -h localhost -p restored < Explain.sql
