@@ -1,18 +1,19 @@
 CREATE DATABASE article;
 
-CREATE TABLE `users` ( `id` integer(255) NOT NULL AUTO_INCREMENT, 
+CREATE TABLE `users` 
+( `id` integer(255) NOT NULL AUTO_INCREMENT, 
 `role` ENUM ('admin','normal') NOT NULL,
 `name` varchar(255) NOT NULL, 
 PRIMARY KEY (`id`) ) 
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `user` ( `role`,`name`) VALUES
+INSERT INTO `users` ( `role`,`name`) VALUES
 ('admin','User1'),
 ('normal','User2'),
 ('normal','User3'),
 ('normal','User4');
 
-CREATE TABLE `category` (
+CREATE TABLE `categories` (
   `id` integer(255) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
    PRIMARY KEY (id)
@@ -67,19 +68,19 @@ INSERT INTO `comments` (`article_id`,`user_id`, `content`) VALUES
 ('2','4', 'good work');
 
 
-CREATE INDEX user_id ON users(id);
-CREATE INDEX user_name ON users(name);
+CREATE INDEX users_id ON users(id);
+CREATE INDEX users_name ON users(name);
 
-CREATE INDEX category_id ON categories(id);
-CREATE INDEX category_name ON categories(name);
-
-
-CREATE INDEX article_id ON articles(id);
-CREATE INDEX article_userid ON articles(user_id);
-CREATE INDEX article_categoryid ON articles(category_id);
+CREATE INDEX categories_id ON categories(id);
+CREATE INDEX categories_name ON categories(name);
 
 
-CREATE INDEX i5 ON comments(id);
-CREATE INDEX i6 ON comments(user_id);
-CREATE INDEX i7 ON comments(article_id);
+CREATE INDEX articles_id ON articles(id);
+CREATE INDEX articles_userid ON articles(user_id);
+CREATE INDEX articles_categoryid ON articles(category_id);
+
+
+CREATE INDEX comments_id ON comments(id);
+CREATE INDEX comments_userid ON comments(user_id);
+CREATE INDEX comments_articleid ON comments(article_id);
 
