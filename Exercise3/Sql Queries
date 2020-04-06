@@ -34,18 +34,19 @@ WHERE users.`name` = 'User3'
 
 
 Ans3
-SELECT articles.`id`,articles.`content`,users.id,users.name,comments.id,comments.content 
+SELECT articles.`id` as `article id`,articles.`content` as `article content` ,GROUP_CONCAT(comments.content) as `comments`
 FROM articles
 INNER JOIN users
 ON articles.user_id = users.id
 LEFT JOIN comments
 ON comments.article_id = articles.id
 WHERE users.name = 'User3'
+GROUP by articles.`id`
 
 
 Ans3 using subquery
 
-select comments.article_id,comments.id,comments.content
+select comments.article_id,GROUP_CONCAT(comments.content) as `comments`
 FROM comments
 WHERE article_id IN
 (SELECT articles.`id`
@@ -53,6 +54,7 @@ FROM articles
 INNER JOIN users
 ON articles.user_id = users.id
 WHERE users.name = 'User3')
+GROUP by comments.article_id
 
 Ans 4
 SELECT DISTINCT articles.`id`,articles.`content`
@@ -69,12 +71,12 @@ WHERE articles.id NOT IN
 FROM comments)
 
 Ans5
-SELECT COUNT(comments.`id`) as "mycount",articles.`id` as "Article_id",articles.`content` as "Article_Description" 
+SELECT COUNT(comments.`id`) as "commentcount",articles.`id` as "Article_id",articles.`content` as "Article_Description" 
 FROM articles
 LEFT JOIN comments
 ON comments.article_id = articles.id
 GROUP BY(articles.`id`)
-ORDER by mycount DESC LIMIT 1
+ORDER by commentcount DESC LIMIT 1
 
 Ans6
 SELECT articles.id,articles.`content`
