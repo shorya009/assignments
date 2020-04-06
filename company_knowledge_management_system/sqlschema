@@ -1,0 +1,46 @@
+Create database knowledge_management_system
+
+CREATE TABLE employees
+(
+id int(255) NOT NULL AUTO_INCREMENT,
+name varchar(255) NOT NULL,
+PRIMARY KEY(id)    
+);
+
+INSERT INTO `employees` (`name`) VALUES ('UserA'), ('UserB'),('UserC'), ('UserD');
+
+CREATE TABLE projects
+(
+id int(255) NOT NULL AUTO_INCREMENT,
+name varchar(255) NOT NULL,
+technology varchar(255) NOT NULL,
+PRIMARY KEY(id)    
+);
+
+INSERT INTO projects(`name`,`technology`) values('P1','HTML,Javascript,Ruby,Rails'),
+('P2','IOS'),
+('P3','Android'),
+('P4','IOS,Android'),
+('P5','Ruby,Rails'),
+('P6','Android,HTML,Javascript'),
+('P7','Android,IOS'),(
+'P8','HTML,Javascript,Ruby,Rails,Android'),
+('P9','IOS');
+
+
+CREATE TABLE employee_projects(
+id integer(255) NOT NULL AUTO_INCREMENT,
+employee_id integer(255) NOT NULL,
+project_id integer(255) NOT NULL,
+active ENUM('1','0') NOT NULL,    
+PRIMARY KEY(id),
+FOREIGN KEY (employee_id) REFERENCES employees(id),    
+FOREIGN KEY (project_id) REFERENCES projects(id)
+);
+
+
+INSERT INTO employee_projects(`employee_id`,`project_id`,`active`) 
+VALUES(1,1,'0'),(1,2,'0'),(1,3,'0'),(1,6,'1'),
+(2,1,'0'),(2,3,'0'),(2,7,'0'),(2,9,'0'),
+(3,1,'0'),(3,8,'0'),(3,9,'0'),(3,2,'0'),
+(4,1,'0'),(1,2,'0'),(4,4,'0'),(4,5,'1'),(4,6,'1');
