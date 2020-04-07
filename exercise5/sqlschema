@@ -1,16 +1,19 @@
 employees table--				
-id	integer (255) not null auto_increment			
-name varchar(255) not null			
+id integer (255) not null auto_increment			
+name varchar(255) not null
+INDEX (name,id) 
 primary key(id)			
 				
 category table ---
 id integer(255) not null auto_increment,
-name varchar(255) not null
+name varchar(255) not null,
+INDEX (name,id) ,
 PRIMARY KEY(id)
 
 location table---
 id integer(255) not null auto_increment,
-name varchar(255) not null
+name varchar(255) not null,
+INDEX (name,id) ,
 PRIMARY KEY(id)
 
 assets table ---				
@@ -21,7 +24,9 @@ model_number varchar(255) not null,
 price integer(255) not null,				
 date_of_purchase DATE not null,				
 warrenty_end_date DATE default (date_of_purchase + interval 1 year),				
-available boolean,				
+available boolean,
+INDEX (name,id),
+INDEX (category_id),
 primary key(id)	
 
 allotments tabel ----
@@ -31,8 +36,10 @@ type varchar(255) not null,
 type_id integer(255) not null,				
 start_date date not null,				
 end_date date,
+INDEX (asset_id),
+INDEX (type_id),
 primary key(id),
-FOREIGN KEY (asset_id) REFERENCES assets2(id), 
+FOREIGN KEY (asset_id) REFERENCES assets(id), 
 foreign key(type_id) references employees(id),
 foreign key(type_id) references location(id));
 				
@@ -41,9 +48,10 @@ id integer(255) not null auto_increment
 asset_id integer(255) not null 				
 cost_of_repairing integer(255) not null				
 nature_of_repair varchar(255) not null				
-warrenty boolean,	
-primary key(id)
-foreign key(asset_id) references assests(id)
+warrenty boolean,
+INDEX (asset_id),
+primary key(id),
+foreign key(asset_id) references assets(id)
 				
 				
 				
