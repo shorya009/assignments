@@ -52,6 +52,4 @@ warrenty boolean,
 INDEX (asset_id),
 primary key(id),
 foreign key(asset_id) references assets(id)
-				
-				
-				
+								
