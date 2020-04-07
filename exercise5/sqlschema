@@ -23,9 +23,8 @@ date_of_purchase DATE not null,
 warrenty_end_date DATE default (date_of_purchase + interval 1 year),				
 available boolean,				
 primary key(id)	
-  	
 
-allotments tabel ----				
+allotments tabel ----
 id integer(255) not null auto_increment,				
 asset_id integer(255) not null,
 type varchar(255) not null,    
@@ -33,16 +32,15 @@ type_id integer(255) not null,
 start_date date not null,				
 end_date date,
 primary key(id),
-foreign key(asset_id) references assests(id),
-foreign key(type_id) references employees(id)
-foreign key(type_id) references location(id)
-
+FOREIGN KEY (asset_id) REFERENCES assets2(id), 
+foreign key(type_id) references employees(id),
+foreign key(type_id) references location(id));
 				
 repair_assets table ---				
 id integer(255) not null auto_increment				
 asset_id integer(255) not null 				
 cost_of_repairing integer(255) not null				
-nature of repair varchar(255) not null				
+nature_of_repair varchar(255) not null				
 warrenty boolean,	
 primary key(id)
 foreign key(asset_id) references assests(id)
