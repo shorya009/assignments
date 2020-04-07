@@ -1,19 +1,19 @@
 employees table--				
 id integer (255) not null auto_increment			
 name varchar(255) not null
-INDEX (name,id) 
+INDEX (name) 
 primary key(id)			
 				
 category table ---
 id integer(255) not null auto_increment,
 name varchar(255) not null,
-INDEX (name,id) ,
+INDEX (name) ,
 PRIMARY KEY(id)
 
 location table---
 id integer(255) not null auto_increment,
 name varchar(255) not null,
-INDEX (name,id) ,
+INDEX (name) ,
 PRIMARY KEY(id)
 
 assets table ---				
@@ -25,7 +25,7 @@ price integer(255) not null,
 date_of_purchase DATE not null,				
 warrenty_end_date DATE default (date_of_purchase + interval 1 year),				
 available boolean,
-INDEX (name,id),
+INDEX (name),
 INDEX (category_id),
 primary key(id)	
 
