@@ -1,0 +1,29 @@
+ans 1 
+select COUNT(employees.id) as "id_count",employees.name 
+FROM allotments 
+LEFT JOIN employees 
+ON allotments.`allotable_id` = employees.id
+GROUP by employees.name
+ORDER BY id_count DESC LIMIT 1
+
+ans 2
+
+select COUNT(employees.id) as "id_count",employees.name 
+FROM allotments
+LEFT JOIN employees 
+ON allotments.`allotable_id` = employees.id
+WHERE allotments.end_date IS null
+GROUP by employees.name
+ORDER BY id_count DESC LIMIT 1
+
+ans 3
+
+SELECT allotments.start_date,allotments.end_date,employees.id,employees.name 
+FROM allotments 
+LEFT JOIN assets ON allotments.`asset_id` = assets.id
+LEFT JOIN employees ON allotments.`allotable_id` = employees.id
+WHERE assets.name = 'LaptopA'
+
+ans 4
+
+SELECT * FROM `assets` WHERE available = 1
