@@ -27,3 +27,47 @@ WHERE assets.name = 'LaptopA'
 ans 4
 
 SELECT * FROM `assets` WHERE available = 1
+
+ans 5
+
+SELECT assets.id,assets.name 
+FROM allotments
+LEFT JOIN assets 
+ON allotments.asset_id = assets.id
+LEFT JOIN employees
+ON allotments.allotable_id = employees.id
+WHERE employees.name = 'Bob' and allotments.end_date is null
+
+
+ans 6
+assuming today is 2012-01-01
+
+SELECT * FROM `assets` WHERE `warranty_end_date` <= '2012-01-01'
+
+Assuming current date
+
+SELECT * FROM `assets` WHERE `warranty_end_date` <= DATE(NOW())
+
+
+ans 7
+
+SELECT employees.id,employees.name 
+FROM `allotments` 
+RIGHT JOIN employees
+ON allotments.allotable_id = employees.id 
+WHERE allotable_id IS null
+
+
+using subquery
+
+SELECT employees.id,employees.name 
+FROM `employees` 
+WHERE employees.id NOT IN
+(SELECT DISTINCT allotments.allotable_id 
+FROM allotments 
+WHERE allotments.allotable_type = 'employee')
+
+
+
+
+
