@@ -1,55 +1,99 @@
 employees table--				
-id integer (255) not null auto_increment			
-name varchar(255) not null
-INDEX (name) 
-primary key(id)			
+CREATE TABLE employees(
+id integer (255) not null auto_increment,			
+name varchar(255) not null,
+INDEX employees_name(name) ,
+primary key(id)
+    )	
+    
+ INSERT INTO employees(`name`) VALUES('Alice'),('Bob'),('Chris'),('Duke'),('Emily');
 				
-category table ---
+categories table ---
+CREATE TABLE categories(
 id integer(255) not null auto_increment,
 name varchar(255) not null,
 INDEX (name) ,
 PRIMARY KEY(id)
+    )
+    
+ INSERT INTO categories(`name`) VALUES('Laptops'),('iPhone'),('iPads'),('Mouse'),('Printers'),('Network Devices'),('Projector');
 
-location table---
+locations table---
+CREATE TABLE locations(
 id integer(255) not null auto_increment,
 name varchar(255) not null,
 INDEX (name) ,
 PRIMARY KEY(id)
+    )
+ALTER TABLE locations AUTO_INCREMENT = 1000;   
+INSERT INTO locations(`name`)VALUES('Meeting Room')
 
 assets table ---				
+CREATE TABLE assets
+(
 id integer(255) not null auto_increment,				
 name varchar(255) not null,
 category_id integer(255) not null, 				
-model_number varchar(255) not null,				
+model_number varchar(255) ,				
 price integer(255) not null,				
-date_of_purchase DATE not null,				
-warrenty_end_date DATE default (date_of_purchase + interval 1 year),				
+date_of_purchase DATE ,				
+warranty_end_date DATE default (date_of_purchase + interval 1 year),				
 available boolean,
 INDEX (name),
 INDEX (category_id),
-primary key(id)	
+primary key(id)
+    )
+INSERT INTO `assets` (`name`, `category_id`, `model_number`, `price`, `date_of_purchase`, `available`) VALUES
+('LaptopA', 1, '1234', 100000, '2011-01-01', '2012-01-01', 0),
+('LaptopB', 1, '1235', 100000, '2011-01-01', '2012-01-02', 1),
+('LaptopN1', 1, '1236', 100000, '2012-01-01', '2013-01-01', 1),
+('LaptopN2', 1, '1237', 100000, '2012-01-01', '2013-01-01', 1),
+('iPhoneA', 2, '2000ab', 70000, '2011-01-01', '2012-01-01', 0),
+('iPhoneB', 2, '2001ab', 70000, '2011-01-01', '2012-01-01', 0),
+('ProjectorA', 7, '3000abc', 35000, '2011-08-15', '2012-08-15', 0),
+('PrinterA', 5, '4000hpinkjet', 10000, '2011-08-15', '2012-08-15', 0),
+('PrinterB', 5, '4001hpinkjet', 10000, '2011-09-10', '2012-09-10', 1);    
 
 allotments tabel ----
+CREATE TABLE allotments
+(
 id integer(255) not null auto_increment,				
 asset_id integer(255) not null,
-type varchar(255) not null,    
-type_id integer(255) not null,				
+allotable_type varchar(255) not null,    
+allotable_id integer(255) not null,				
 start_date date not null,				
 end_date date,
 INDEX (asset_id),
-INDEX (type_id),
+INDEX (allotable_id),
 primary key(id),
 FOREIGN KEY (asset_id) REFERENCES assets(id), 
-foreign key(type_id) references employees(id),
-foreign key(type_id) references location(id));
+foreign key(allotable_id) references employees(id),
+foreign key(allotable_id) references locations(id)
+);
+
+INSERT INTO allotments(`asset_id`,`allotable_type`,`allotable_id`,`start_date`,`end_date`)
+VALUES(1,'employee',1,'2011-01-01','2011-12-31'),
+(2,'employee',2,'2011-01-01','2011-12-31'),
+(6,'employee',2,'2011-01-01',null),
+(5,'employee',1,'2011-04-01',null),
+(7,'location',1000,'2011-08-15',null),
+(8,'location',1000,'2011-08-15',null),
+(1,'employee',2,'2012-01-01',null)
 				
 repair_assets table ---				
-id integer(255) not null auto_increment				
-asset_id integer(255) not null 				
-cost_of_repairing integer(255) not null				
-nature_of_repair varchar(255) not null				
-warrenty boolean,
+CREATE TABLE repair_assets
+(
+id integer(255) not null auto_increment,				
+asset_id integer(255) not null, 				
+cost_of_repairing integer(255) not null	,			
+nature_of_repair varchar(255) not null,				
+warranty boolean,
 INDEX (asset_id),
 primary key(id),
 foreign key(asset_id) references assets(id)
+ )
+ 
+ INSERT INTO repair_assets(`asset_id`,`cost_of_repairing`,`nature_of_repair`,`warranty`)
+VALUES(2,10000,'screen and parts repairing',0),
+(9,2000,'harware problem',1)
 								
