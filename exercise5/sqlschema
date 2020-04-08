@@ -95,5 +95,5 @@ foreign key(asset_id) references assets(id)
  
  INSERT INTO repair_assets(`asset_id`,`cost_of_repairing`,`nature_of_repair`,`warranty`)
 VALUES(2,10000,'screen and parts repairing',0),
-(9,2000,'harware problem',1)
+(9,2000,'hardware problem',1)
 								
