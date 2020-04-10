@@ -25,7 +25,7 @@ name varchar(255) not null,
 INDEX (name) ,
 PRIMARY KEY(id)
     )
-ALTER TABLE locations AUTO_INCREMENT = 1000;   
+  
 INSERT INTO locations(`name`)VALUES('Meeting Room')
 
 assets table ---				
