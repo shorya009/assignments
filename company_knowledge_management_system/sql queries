@@ -21,6 +21,7 @@ RIGHT JOIN employee_projects ON project_technologies.project_id = employee_proje
 LEFT JOIN employees ON employee_projects.employee_id = employees.id  
 WHERE employees.name = 'UserB'
 GROUP by 1,2,3,5,6
+HAVING project_count >= 3
 ORDER BY project_count DESC LIMIT 1
 
 ans 4
