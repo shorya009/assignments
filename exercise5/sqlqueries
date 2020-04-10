@@ -3,6 +3,7 @@ select COUNT(employees.id) as "id_count",employees.name
 FROM allotments 
 LEFT JOIN employees 
 ON allotments.`allotable_id` = employees.id
+WHERE `allotable_type` = 'employee'
 GROUP by employees.name
 ORDER BY id_count DESC LIMIT 1
 
@@ -12,7 +13,7 @@ select COUNT(employees.id) as "id_count",employees.name
 FROM allotments
 LEFT JOIN employees 
 ON allotments.`allotable_id` = employees.id
-WHERE allotments.end_date IS null
+WHERE `allotable_type` = 'employee' and allotments.end_date IS null
 GROUP by employees.name
 ORDER BY id_count DESC LIMIT 1
 
@@ -22,7 +23,7 @@ SELECT allotments.start_date,allotments.end_date,employees.id,employees.name
 FROM allotments 
 LEFT JOIN assets ON allotments.`asset_id` = assets.id
 LEFT JOIN employees ON allotments.`allotable_id` = employees.id
-WHERE assets.name = 'LaptopA'
+WHERE `allotable_type` = 'employee' and assets.name = 'LaptopA'
 
 ans 4
 
@@ -36,7 +37,7 @@ LEFT JOIN assets
 ON allotments.asset_id = assets.id
 LEFT JOIN employees
 ON allotments.allotable_id = employees.id
-WHERE employees.name = 'Bob' and allotments.end_date is null
+WHERE `allotable_type` = 'employee' and employees.name = 'Bob' and allotments.end_date is null
 
 
 ans 6
