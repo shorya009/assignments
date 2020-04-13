@@ -19,7 +19,9 @@ ORDER BY id_count DESC LIMIT 1
 
 ans 3
 
-SELECT allotments.start_date,allotments.end_date,employees.id,employees.name 
+SELECT employees.id,employees.name,
+CASE when allotments.end_date is not null then  DATEDIFF(allotments.end_date,allotments.start_date) 
+else DATEDIFF(date(now()),allotments.start_date) END as "duration"
 FROM allotments 
 LEFT JOIN assets ON allotments.`asset_id` = assets.id
 LEFT JOIN employees ON allotments.`allotable_id` = employees.id
@@ -53,8 +55,8 @@ SELECT * FROM `assets` WHERE `warranty_end_date` <= DATE(NOW())
 ans 7
 
 SELECT employees.id,employees.name 
-FROM `allotments` 
-RIGHT JOIN employees
+FROM `employees` 
+LEFT JOIN allotments
 ON allotments.allotable_id = employees.id 
 WHERE allotable_id IS null
 
