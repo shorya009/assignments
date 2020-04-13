@@ -21,7 +21,7 @@ ans 3
 
 SELECT employees.id,employees.name,
 CASE when allotments.end_date is not null then  DATEDIFF(allotments.end_date,allotments.start_date) 
-else DATEDIFF(date(now()),allotments.start_date) END as "duration"
+else DATEDIFF(date(now()),allotments.start_date) END as "duration(days)"
 FROM allotments 
 LEFT JOIN assets ON allotments.`asset_id` = assets.id
 LEFT JOIN employees ON allotments.`allotable_id` = employees.id
